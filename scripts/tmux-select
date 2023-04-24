@@ -1,0 +1,26 @@
+#!/bin/sh
+
+if [ -z "$TMUX_SESSION_DIRS" ]; then
+	TMUX_SESSION_DIRS="$(echo "$HOME/projects $HOME/dev $HOME/source")"
+fi
+
+dir="$(find $TMUX_SESSION_DIRS -maxdepth 1 -mindepth 1 2>/dev/null | fzf)"
+
+if [ -z "$dir" ]; then
+	exit 1
+fi
+
+# tmux doesn't like dots in it's session name
+session="$(echo "$dir" | sed -e "s|^[\./]*||" -e "s|[\./]*$||" -e "s|[\./]|_|g" | tr '[:upper:]' '[:lower:]' )"
+
+tmux has-session -t "$session" 2>/dev/null
+
+if [ $? != 0 ]; then
+	tmux new-session -d -c "$dir" -s "$session"
+fi
+
+if [ -z "$TMUX" ]; then
+	tmux attach-session -t "$session"
+else
+	tmux switch-client -t "$session"
+fi
