@@ -1,0 +1,119 @@
+#!/bin/sh
+
+###########################
+## ENVIRONMENT
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+if [ ! -z "$(which nvim)" ]; then
+	export EDITOR="nvim"
+elif [ ! -z "$(which vim)" ]; then
+	export EDITOR="vim"
+else
+	export EDITOR="nano"
+fi
+
+if [ ! -z "$(which ssh-agent)" ]; then
+	eval $(ssh-agent) > /dev/null
+fi
+
+###########################
+## PATHS
+
+function __add_to_path() {
+	for p in "$@"; do
+		if [ -d "$p" ]; then
+			PATH="$p:$PATH"
+		fi
+	done
+}
+
+__add_to_path                 \
+	"/usr/local/go/bin"       \
+	"$HOME/.local/bin"        \
+	"$HOME/.bin"              \
+	"$HOME/go/bin"            \
+	"$HOME/.dotfiles/scripts"
+
+###########################
+## FUNCTIONS
+
+f() {
+    find . -iname "*$1*"
+}
+
+fe() {
+    find . -iname "*$1*" | fzf -i | xargs -o $EDITOR
+}
+
+fea() {
+    find . -iname "*$1*" | xargs -o $EDITOR
+}
+
+###########################
+## ALIASES
+
+alias e="$EDITOR"
+alias o="open"
+
+alias ls="ls --color=auto"
+alias l="ls -lah"
+
+alias grep="grep --color=auto"
+alias egrep="grep -E"
+alias fgrep="grep -F"
+
+alias cd..="cd .."
+
+alias g="git"
+alias gs="git status"
+alias ga="git add"
+alias ga.="git add ."
+alias gaa="git add ."
+alias gap="git add -p"
+alias gd="git diff"
+alias gds="git diff --staged"
+alias gc="git commit"
+alias gcm="git commit --message"
+alias gl="git log"
+alias gls="git log --stat"
+alias gll="git log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset %C(yellow)%d%Creset'"
+alias glp="git log --patch"
+alias gla="git log --stat --patch"
+alias glom="git log origin/master.."
+alias gfa="git fetch --all --prune"
+alias gp="git push"
+alias grom="git rebase origin/master --autostash"
+alias gromi="git rebase origin/master -i --autostash"
+
+# alias ssh-cache="ssh-add ~/.ssh/id_rsa"
+
+###########################
+## SHORTCUTS
+
+case "$( echo "$SHELL" | grep -o '[^/]*$' )" in
+	bash )
+		bind -x '"\C-t":"tmux-select"'
+		;;
+
+	zsh )
+		function _tmux-select {
+			zle push-input
+			BUFFER="tmux-select"
+			zle accept-line
+		}
+		zle -N _tmux-select
+		bindkey "^t" _tmux-select
+		;;
+esac
+
+
+
+
+
+
+
+
