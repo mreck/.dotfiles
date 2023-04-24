@@ -100,6 +100,7 @@ case "$( echo "$SHELL" | grep -o '[^/]*$' )" in
 		;;
 
 	zsh )
+		# tmux-select
 		function _tmux-select {
 			zle push-input
 			BUFFER="tmux-select"
@@ -107,6 +108,15 @@ case "$( echo "$SHELL" | grep -o '[^/]*$' )" in
 		}
 		zle -N _tmux-select
 		bindkey "^t" _tmux-select
+
+		# fzf edit
+		function _fzf-edit {
+			zle push-input
+			BUFFER="fzf --print0 | xargs -0 -o vim"
+			zle accept-line
+		}
+		zle -N _fzf-edit
+		bindkey "^e" _fzf-edit
 		;;
 esac
 
