@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -e
+
+create_symlink() {
+	orig="$(realpath "$1")"
+	link="$2"
+	if [ -e "$link" ]; then
+		if [ -h "$link" ]; then
+			echo "[*] overwriting link"
+			ln -sfv "$orig" "$link"
+		else
+			echo "[*] file \"$link\" exists"
+		fi
+	else
+		echo "[*] creating link"
+		ln -sv "$orig" "$link"
+	fi
+}
+
+(
+	cd "$(realpath "$(dirname "$0")")"
+	create_symlink "tmux/.tmux.conf" "$HOME/.tmux.conf"
+	create_symlink "vim/.vimrc"      "$HOME/.vimrc"
+)
