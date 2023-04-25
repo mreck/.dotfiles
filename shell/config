@@ -86,6 +86,7 @@ alias gla="git log --stat --patch"
 alias glom="git log origin/master.."
 alias gfa="git fetch --all --prune"
 alias gp="git push"
+alias gpom="git push -u origin/master"
 alias grom="git rebase origin/master --autostash"
 alias gromi="git rebase origin/master -i --autostash"
 
