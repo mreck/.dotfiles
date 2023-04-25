@@ -16,27 +16,21 @@ else
 	export EDITOR="nano"
 fi
 
-if [ ! -z "$(which ssh-agent)" ]; then
-	eval $(ssh-agent) > /dev/null
-fi
+[ ! -z "$(which ssh-agent)" ] && eval "$(ssh-agent -s)" 1>/dev/null
+
 
 ###########################
 ## PATHS
 
-function __add_to_path() {
-	for p in "$@"; do
-		if [ -d "$p" ]; then
-			PATH="$p:$PATH"
-		fi
-	done
-}
+shift $#
+set -- /usr/local/go/bin ~/.cargo/bin ~/.local/bin ~/bin ~/.bin ~/.dotfiles/scripts
+for p in "$@"; do
+	if [ -d "$p" ]; then
+		export PATH=$p:$PATH
+	fi
+done
+shift $#
 
-__add_to_path                 \
-	"/usr/local/go/bin"       \
-	"$HOME/.local/bin"        \
-	"$HOME/.bin"              \
-	"$HOME/go/bin"            \
-	"$HOME/.dotfiles/scripts"
 
 ###########################
 ## FUNCTIONS
@@ -52,6 +46,7 @@ fe() {
 fea() {
     find . -iname "*$1*" | xargs -o $EDITOR
 }
+
 
 ###########################
 ## ALIASES
@@ -92,6 +87,7 @@ alias gromi="git rebase origin/master -i --autostash"
 
 # alias ssh-cache="ssh-add ~/.ssh/id_rsa"
 
+
 ###########################
 ## SHORTCUTS
 
@@ -120,11 +116,3 @@ case "$( echo "$SHELL" | grep -o '[^/]*$' )" in
 		bindkey "^e" _fzf-edit
 		;;
 esac
-
-
-
-
-
-
-
-
