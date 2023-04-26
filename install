@@ -20,6 +20,7 @@ create_symlink() {
 
 (
 	cd "$(realpath "$(dirname "$0")")"
+	create_symlink "shell/config"    "$HOME/.zshrc"
 	create_symlink "tmux/.tmux.conf" "$HOME/.tmux.conf"
 	create_symlink "vim/.vimrc"      "$HOME/.vimrc"
 )
