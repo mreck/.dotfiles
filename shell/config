@@ -3,6 +3,8 @@
 ###########################
 ## ENVIRONMENT
 
+export SHELL_NAME="$( echo "$SHELL" | grep -o '[^/]*$' )"
+
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -91,9 +93,10 @@ alias gromi="git rebase origin/master -i --autostash"
 ###########################
 ## SHORTCUTS
 
-case "$( echo "$SHELL" | grep -o '[^/]*$' )" in
+case "$SHELL_NAME" in
 	bash )
 		bind -x '"\C-t":"tmux-select"'
+		bind -x '"\C-e":"fzf --print0 | xargs -0 -o vim"'
 		;;
 
 	zsh )
@@ -114,5 +117,25 @@ case "$( echo "$SHELL" | grep -o '[^/]*$' )" in
 		}
 		zle -N _fzf-edit
 		bindkey "^e" _fzf-edit
+		;;
+esac
+
+
+###########################
+## PROMPT
+
+case "$SHELL_NAME" in
+	bash )
+		;;
+
+	zsh )
+		autoload -U colors && colors
+
+		# red, blue, green, cyan, yellow, magenta, black, white
+		p_user="%F{green}%n%f"
+		p_host="%F{cyan}%m%f"
+		p_path="%F{magenta}%~%f"
+		p_code="%(?.%F{green}√.%F{red}%?)%f"
+		PROMPT="%B$p_user @ $p_host : $p_path [$p_code] $ %b"
 		;;
 esac
