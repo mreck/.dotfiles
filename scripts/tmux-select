@@ -4,7 +4,10 @@ if [ -z "$TMUX_SESSION_DIRS" ]; then
 	TMUX_SESSION_DIRS="$(echo "$HOME/projects $HOME/dev $HOME/source")"
 fi
 
-dir="$(find $TMUX_SESSION_DIRS -maxdepth 1 -mindepth 1 2>/dev/null | fzf)"
+dir="$({
+	find $HOME/.dotfiles -maxdepth 0;
+	find $TMUX_SESSION_DIRS -maxdepth 1 -mindepth 1 2>/dev/null;
+} | fzf)"
 
 if [ -z "$dir" ]; then
 	exit 1
