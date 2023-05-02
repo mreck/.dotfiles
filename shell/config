@@ -38,15 +38,15 @@ shift $#
 ## FUNCTIONS
 
 f() {
-    find . -iname "*$1*"
+	find . -iname "*$1*"
 }
 
 fe() {
-    find . -iname "*$1*" | fzf -i | xargs -o $EDITOR
+	find . -iname "*$1*" | fzf -i | xargs -o $EDITOR
 }
 
 fea() {
-    find . -iname "*$1*" | xargs -o $EDITOR
+	find . -iname "*$1*" | xargs -o $EDITOR
 }
 
 
