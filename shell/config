@@ -25,7 +25,7 @@ fi
 ## PATHS
 
 shift $#
-set -- /usr/local/go/bin ~/.cargo/bin ~/.local/bin ~/bin ~/.bin ~/.dotfiles/scripts
+set -- /usr/local/go/bin ~/go/bin ~/.cargo/bin ~/.local/bin ~/.local/scripts ~/bin ~/.bin ~/.dotfiles/scripts
 for p in "$@"; do
 	if [ -d "$p" ]; then
 		export PATH=$p:$PATH
