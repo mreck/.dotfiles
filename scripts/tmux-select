@@ -14,7 +14,7 @@ if [ -z "$dir" ]; then
 fi
 
 # tmux doesn't like dots in it's session name
-session="$(echo "$dir" | sed -e "s|^[\./]*||" -e "s|[\./]*$||" -e "s|[\./]|_|g" | tr '[:upper:]' '[:lower:]' )"
+session="$(echo "$dir" | sed -e "s|^$HOME|~|g" | tr '.' '_' )"
 
 tmux has-session -t "$session" 2>/dev/null
 
