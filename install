@@ -5,6 +5,7 @@ set -e
 create_symlink() {
 	orig="$(realpath "$1")"
 	link="$2"
+	mkdir -pv "$(dirname "$link")"
 	if [ -e "$link" ]; then
 		if [ -h "$link" ]; then
 			echo "[*] overwriting link"
@@ -20,6 +21,7 @@ create_symlink() {
 
 (
 	cd "$(realpath "$(dirname "$0")")"
+	create_symlink "neovim/init.lua" "$HOME/.config/nvim/init.lua"
 	create_symlink "shell/config"    "$HOME/.zshrc"
 	create_symlink "tmux/.tmux.conf" "$HOME/.tmux.conf"
 	create_symlink "vim/.vimrc"      "$HOME/.vimrc"
