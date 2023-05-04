@@ -104,6 +104,8 @@ case "$SHELL_NAME" in
 		# basic key bindings
 		bindkey "^[[H" beginning-of-line
 		bindkey "^[[F" end-of-line
+		bindkey "^P" history-search-backward
+		bindkey "^N" history-search-forward
 
 		# tmux-select
 		function _tmux-select {
@@ -141,6 +143,9 @@ case "$SHELL_NAME" in
 		setopt AUTO_CD
 		setopt NO_CASE_GLOB
 		setopt EXTENDED_HISTORY
+
+		export SAVEHIST=100000
+		export HISTFILE=~/.zsh_history
 		;;
 esac
 
