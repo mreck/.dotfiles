@@ -57,7 +57,9 @@ alias e="$EDITOR"
 alias o="open"
 
 alias ls="ls --color=auto"
+alias lst="ls -1t"
 alias l="ls -lah"
+alias lt="ls -laht"
 
 alias grep="grep --color=auto"
 alias egrep="grep -E"
