@@ -1,2 +1,2 @@
 #!/bin/sh
-echo 2 > sudo tee /sys/module/hid_apple/parameters/fnmode
+sudo sh -c 'echo 2 > /sys/module/hid_apple/parameters/fnmode'

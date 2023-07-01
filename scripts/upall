@@ -1,11 +1,19 @@
 #!/bin/sh
 
-if [ -x "$(which apt)" ]; then
-    echo "[*] Updating APT"
-    sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+if [ "$(uname)" = "Linux" ]; then
+    if [ -x "$(which apt)" ]; then
+        echo "\n[*] Updating APT\n"
+        sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+    fi
+
+    if [ -x "$(which snap)" ]; then
+        echo "\n[*] Updating Snaps\n"
+        sudo snap refresh
+    fi
 fi
 
 if [ -x "$(which brew)" ]; then
-    echo "[*] Updating homebrew"
+    echo "\n[*] Updating homebrew\n"
     brew update && brew upgrade
 fi
+
