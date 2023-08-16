@@ -48,6 +48,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MOVEMENT & EDITING
 
+(setq search-default-mode 'char-fold-to-regexp)
+(setq isearch-wrap-pause 'no)
+
 (global-set-key [home] 'move-beginning-of-line)
 (global-set-key [end]  'move-end-of-line)
 
@@ -125,10 +128,7 @@
   (set-background-color "#000"))
 
 (use-package magit
-  :ensure t
-  :init
-  :config
-  )
+  :ensure t)
 
 (use-package which-key
   :ensure t
