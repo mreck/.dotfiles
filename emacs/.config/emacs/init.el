@@ -22,17 +22,37 @@
 
 (setq visible-bell 0)
 (setq bell-volume 0)
+(setq ring-bell-function 'ignore)
+
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
 (setq use-dialog-box nil)
 (setq global-auto-revert-non-file-buffers t)
 
-(set-face-attribute 'default nil :height 120)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+(setq visible-bell nil
+      ring-bell-function 'flash-mode-line)
+(defun flash-mode-line ()
+  (invert-face 'mode-line)
+  (run-with-timer 0.1 nil #'invert-face 'mode-line))
+
+(if (eq system-type 'darwin)
+    (set-face-attribute 'default nil :height 160)
+    (set-face-attribute 'default nil :height 120))
 (set-frame-font "FiraCode Nerd Font Medium" nil t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MOVEMENT & EDITING
+
+(global-set-key [home] 'move-beginning-of-line)
+(global-set-key [end]  'move-end-of-line)
+
+(define-key global-map [C-home] 'beginning-of-buffer)
+(define-key global-map [C-end]  'end-of-buffer)
 
 (setq next-line-add-newlines nil)
 
@@ -54,6 +74,11 @@
   (previous-line))
 
 (global-set-key (kbd "C-c C-c") 'clone-line)
+
+(when (eq system-type 'darwin)
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta)
+  (global-set-key [kp-delete] 'delete-char)) ;; sets fn-delete to be right-delete
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; RECENT FILES
