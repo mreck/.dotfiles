@@ -89,6 +89,7 @@ alias gp="git push"
 alias gpom="git push -u origin/master"
 alias grom="git rebase origin/master --autostash"
 alias gromi="git rebase origin/master -i --autostash"
+alias gbpurge='git branch --merged | grep -Ev "(\*|master|develop|staging)" | xargs -n 1 git branch -d'
 
 # alias ssh-cache="ssh-add ~/.ssh/id_rsa"
 
