@@ -23,6 +23,10 @@
 (setq visible-bell 0)
 (setq bell-volume 0)
 (setq ring-bell-function 'ignore)
+(setq ring-bell-function 'flash-mode-line)
+(defun flash-mode-line ()
+  (invert-face 'mode-line)
+  (run-with-timer 0.1 nil #'invert-face 'mode-line))
 
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-message t)
@@ -34,16 +38,12 @@
 (set-keyboard-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-(setq visible-bell nil
-      ring-bell-function 'flash-mode-line)
-(defun flash-mode-line ()
-  (invert-face 'mode-line)
-  (run-with-timer 0.1 nil #'invert-face 'mode-line))
-
 (if (eq system-type 'darwin)
     (set-face-attribute 'default nil :height 160)
     (set-face-attribute 'default nil :height 120))
 (set-frame-font "FiraCode Nerd Font Medium" nil t)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MOVEMENT & EDITING
@@ -63,12 +63,6 @@
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 
-(global-set-key
- (kbd "C-c C-i")
- (lambda ()
-   (interactive)
-   (manual-entry (current-word))))
-
 (defun clone-line ()
   (interactive)
   (kill-whole-line)
@@ -76,7 +70,36 @@
   (yank)
   (previous-line))
 
-(global-set-key (kbd "C-c C-c") 'clone-line)
+(defun move-line-up ()
+  (interactive)
+  (transpose-lines 1)
+  (previous-line 2))
+
+(defun move-line-down ()
+  (interactive)
+  (next-line 1)
+  (transpose-lines 1)
+  (previous-line 1))
+
+(global-set-key (kbd "C-c C-c")    'clone-line)
+(global-set-key (kbd "C-S-<up>")   'move-line-up)
+(global-set-key (kbd "C-S-<down>") 'move-line-down)
+
+(global-set-key
+ (kbd "C-c C-i")
+ (lambda ()
+   (interactive)
+   (manual-entry (current-word))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; DIRED
+
+(if (eq system-type 'darwin)
+    (setq dired-listing-switches "-lahB")
+    (setq dired-listing-switches "-lahB --group-directories-first"))
+
+(global-set-key (kbd "C-x C-d") 'dired)
+(global-set-key (kbd "C-x d")   'dired-jump)
 
 (when (eq system-type 'darwin)
   (setq mac-option-modifier 'alt)
@@ -128,13 +151,16 @@
   (set-background-color "#000"))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :init
+  (setq magit-display-buffer-function
+        #'magit-display-buffer-fullframe-status-v1))
 
 (use-package which-key
   :ensure t
   :init
   (which-key-setup-minibuffer)
-  (setq which-key-show-early-on-C-h t)
+  (setq which-key-show-early-on-c-h t)
   :config
   (which-key-mode))
 
