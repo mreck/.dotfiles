@@ -1,27 +1,11 @@
 #!/bin/sh
 
-set -e
-
-create_symlink() {
-	orig="$(realpath "$1")"
-	link="$2"
-	echo "[*] creating symlink for: $orig"
-	mkdir -pv "$(dirname "$link")"
-	if [ -e "$link" ]; then
-		if [ -h "$link" ]; then
-			ln -sfv "$orig" "$link"
-		else
-			echo "file \"$link\" exists"
-		fi
-	else
-		ln -sv "$orig" "$link"
-	fi
-}
+set -xe
 
 (
 	cd "$(realpath "$(dirname "$0")")"
-	create_symlink "neovim/init.lua" "$HOME/.config/nvim/init.lua"
-	create_symlink "shell/config"    "$HOME/.zshrc"
-	create_symlink "tmux/tmux.conf"  "$HOME/.config/tmux/tmux.conf"
-	create_symlink "vim/.vimrc"      "$HOME/.vimrc"
+    stow -v --no-folding emacs
+    stow -v --no-folding neovim
+    stow -v --no-folding tmux
+    stow -v --no-folding vim
 )
