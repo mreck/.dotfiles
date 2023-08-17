@@ -151,21 +151,3 @@ case "$SHELL_NAME" in
 		export HISTFILE=~/.zsh_history
 		;;
 esac
-
-
-###########################
-## PROMPT
-
-case "$SHELL_NAME" in
-	bash )
-		;;
-
-	zsh )
-		# red, blue, green, cyan, yellow, magenta, black, white
-		p_user="%F{green}%n%f"
-		p_host="%F{cyan}%m%f"
-		p_path="%F{magenta}%~%f"
-		p_code="%(?.%F{green}√.%F{red}X)%f"
-		PROMPT="%B$p_user @ $p_host : $p_path [$p_code] $ %b"
-		;;
-esac
