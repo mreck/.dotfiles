@@ -115,17 +115,6 @@
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IDO MODE
-
-(require 'ido)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(setq ido-use-filename-at-point 'guess)
-(setq ido-create-new-buffer 'always)
-(global-set-key (kbd "M-i") 'ido-goto-symbol)
-(ido-mode t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MINI-BUFFER HISTORY
 
 (setq history-length 25)
@@ -150,11 +139,25 @@
   (load-theme 'tron-legacy t)
   (set-background-color "#000"))
 
+(use-package ido-completing-read+
+  :ensure t
+  :init
+  (setq ido-enable-flex-matching t
+        ido-everywhere t
+        ido-use-filename-at-point 'guess
+        ido-create-new-buffer 'always)
+  (global-set-key (kbd "M-i") 'ido-goto-symbol)
+  :config
+  (ido-mode t)
+  (ido-everywhere t)
+  (ido-ubiquitous-mode t))
+
 (use-package magit
   :ensure t
   :init
   (setq magit-display-buffer-function
-        #'magit-display-buffer-fullframe-status-v1))
+        #'magit-display-buffer-fullframe-status-v1)
+  (setq magit-completing-read-function 'magit-ido-completing-read))
 
 (use-package which-key
   :ensure t
