@@ -24,6 +24,10 @@
 (save-place-mode 1)
 (global-auto-revert-mode 1)
 
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default compilation-scroll-output t)
+
 (setq visible-bell 0)
 (setq bell-volume 0)
 (setq ring-bell-function 'ignore)
