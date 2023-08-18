@@ -17,6 +17,10 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (blink-cursor-mode -1)
+(scroll-bar-mode -1)
+
+(column-number-mode 1)
+(show-paren-mode 1)
 (save-place-mode 1)
 (global-auto-revert-mode 1)
 
@@ -33,6 +37,8 @@
 (setq initial-scratch-message nil)
 (setq use-dialog-box nil)
 (setq global-auto-revert-non-file-buffers t)
+
+(add-to-list 'write-file-functions 'delete-trailing-whitespace)
 
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
