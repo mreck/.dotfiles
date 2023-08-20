@@ -83,6 +83,15 @@ function! ToggleGermanIMaps()
 	endif
 endfunction
 
+function! ToggleHeaderCodeFile()
+	let ext = expand("%:e")
+	if ext == "c"
+		:e %<.h
+	elseif ext == "h"
+		:e %<.c
+	endif
+endfunction
+
 " disable arrow keys (use home row!)
 nnoremap <left>  :echoe "Use h"<CR>
 nnoremap <right> :echoe "Use l"<CR>
@@ -139,3 +148,5 @@ map <leader>b :b<space>
 map <leader>ts :set spell!<CR>
 map <leader>tn :set number!<CR>:set relativenumber!<CR>
 map <leader>tg :call ToggleGermanIMaps()<CR>
+
+map <leader>h :call ToggleHeaderCodeFile()<CR>
