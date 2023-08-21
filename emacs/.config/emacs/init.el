@@ -1,6 +1,6 @@
 (require 'package)
-(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -10,6 +10,9 @@
 (eval-and-compile
   (setq use-package-always-ensure t
         use-package-expand-minimally t))
+
+(setq custom-file (locate-user-emacs-file "custom-vars.el"))
+(load custom-file 'noerror 'nomessage)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MINIMAL UI
@@ -23,6 +26,7 @@
 (show-paren-mode 1)
 (save-place-mode 1)
 (global-auto-revert-mode 1)
+(global-hl-line-mode t)
 
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
@@ -30,8 +34,8 @@
 
 (setq visible-bell 0)
 (setq bell-volume 0)
-(setq ring-bell-function 'ignore)
 (setq ring-bell-function 'flash-mode-line)
+
 (defun flash-mode-line ()
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
@@ -117,34 +121,40 @@
   (global-set-key [kp-delete] 'delete-char)) ;; sets fn-delete to be right-delete
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; RECENT FILES
-
-(recentf-mode 1)
-(setq recentf-max-menu-items 50)
-(setq recentf-max-saved-items 50)
-(global-set-key (kbd "C-x C-r") 'recentf-open-files)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MINI-BUFFER HISTORY
 
 (setq history-length 25)
 (savehist-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; CUSTOM VARIABLES FILE
-
-(setq custom-file (locate-user-emacs-file "custom-vars.el"))
-(load custom-file 'noerror 'nomessage)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PACKAGES
+
+(use-package recentf
+  :bind ("C-x C-r" . recentf-open-files)
+  :init
+  (setq recentf-auto-cleanup 'never
+        recentf-max-saved-items 1000
+        recentf-save-file (concat user-emacs-directory ".recentf"))
+  (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+  :config
+  (recentf-mode t))
+
+(use-package ido
+  :bind ("M-i" . ido-goto-symbol)
+  :config
+  (setq ido-enable-flex-matching t
+        ido-everywhere t
+        ido-use-virtual-buffers t
+        ido-use-filename-at-point 'guess
+        ido-create-new-buffer 'always)
+  (ido-mode t))
 
 (use-package tron-legacy-theme
   :ensure t
   :init
-  (setq tron-legacy-theme-dark-fg-bright-comments t)
-  (setq tron-legacy-theme-vivid-cursor nil)
-  (setq tron-legacy-theme-softer-bg t)
+  (setq tron-legacy-theme-dark-fg-bright-comments t
+        tron-legacy-theme-vivid-cursor nil
+        tron-legacy-theme-softer-bg t)
   :config
   (load-theme 'tron-legacy t)
   (set-background-color "#000"))
@@ -164,6 +174,7 @@
 
 (use-package magit
   :ensure t
+  :bind ("C-x g" . magit-status)
   :init
   (setq magit-display-buffer-function
         #'magit-display-buffer-fullframe-status-v1)
