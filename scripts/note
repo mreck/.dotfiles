@@ -1,0 +1,9 @@
+#!/bin/sh
+
+(
+	cd "$HOME/notes"
+	fname="$(fzf --print-query | tail -1)"
+	if [ ! -z "$fname" ]; then
+		vim "$fname"
+	fi
+)
