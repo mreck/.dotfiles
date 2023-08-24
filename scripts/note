@@ -2,8 +2,17 @@
 
 (
 	cd "$HOME/notes"
-	fname="$(fzf --print-query | tail -1)"
-	if [ ! -z "$fname" ]; then
-		vim "$fname"
-	fi
+
+	case "$1" in
+		grep | g )
+			shift
+			grep -nir --color=always -e "$1" .
+			;;
+		* )
+			fname="$(fzf --print-query | tail -1)"
+			if [ ! -z "$fname" ]; then
+				vim "$fname"
+			fi
+			;;
+	esac
 )
