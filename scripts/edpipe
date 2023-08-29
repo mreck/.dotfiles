@@ -1,0 +1,10 @@
+#!/bin/sh
+TEMP_FILE="/tmp/edpipe-tmp-$(date +%s)"
+if [ -z "$1" ]; then
+	touch $TEMP_FILE
+else
+	cp "$1" $TEMP_FILE
+fi
+$EDITOR $TEMP_FILE
+cat $TEMP_FILE
+rm $TEMP_FILE
