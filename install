@@ -3,8 +3,9 @@
 set -xe
 
 (
-	cd "$(realpath "$(dirname "$0")")"
+    cd "$(realpath "$(dirname "$0")")"
     stow -v --no-folding emacs
+    stow -v --no-folding gdb
     stow -v --no-folding neovim
     stow -v --no-folding tmux
     stow -v --no-folding vim
