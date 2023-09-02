@@ -61,11 +61,19 @@ alias lst="ls -1t"
 alias l="ls -lah"
 alias lt="ls -laht"
 
+if [ "$(uname)" = "Linux" ]; then
+	alias ls="ls --color=auto --group-directories-first"
+fi
+
 alias grep="grep --color=auto"
 alias egrep="grep -E"
 alias fgrep="grep -F"
 
 alias cd..="cd .."
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
 alias g="git"
 alias gs="git status"
