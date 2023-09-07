@@ -65,9 +65,14 @@ if [ "$(uname)" = "Linux" ]; then
 	alias ls="ls --color=auto --group-directories-first"
 fi
 
-if [ -x "$(which batcat)" ];then
+if [ "$(uname)" = "Linux" ] && [ -x "$(which batcat)" ]; then
 	alias ocat="$(which cat)"
 	alias cat="batcat"
+fi
+
+if [ "$(uname)" = "Darwin" ] && [ -x "$(which bat)" ]; then
+	alias ocat="$(which cat)"
+	alias cat="bat"
 fi
 
 alias grep="grep --color=auto"
