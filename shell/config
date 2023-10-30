@@ -107,9 +107,12 @@ alias gcan="git commit --amend --no-edit"
 alias gl="git log"
 alias gls="git log --stat"
 alias gll="git log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset %C(yellow)%d%Creset'"
+alias gllom="git log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset %C(yellow)%d%Creset' origin/master.."
 alias glp="git log --patch"
 alias gla="git log --stat --patch"
 alias glom="git log origin/master.."
+alias glomp="git log --patch origin/master.."
+alias gloms="git log --stat origin/master.."
 
 alias gfa="git fetch --all --prune"
 
