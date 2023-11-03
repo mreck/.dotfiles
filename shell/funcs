@@ -1,0 +1,8 @@
+#!/bin/sh
+
+jump() {
+	dst="$(echo "$JUMP_DIRS" | tr ':' '\n' | sort | fzf)"
+	if [ ! -z "$dst" ]; then
+		cd "$dst"
+	fi
+}
