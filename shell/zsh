@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+PROMPT="%B%F{green}%n%f %F{magenta}@%f %F{white}%m%f%b "
+PROMPT+="%B%F{magenta}:%f %{$fg[cyan]%}%~%b "
+PROMPT+="%(?:%{$fg_bold[green]%}> :%{$fg_bold[red]%}> )%{$reset_color%}"
+
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
