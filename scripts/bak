@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 UNIX_TIMESTAMP=
+VERBOSE=
 FNAMES=()
+CP=cp
 
 usage() {
-	echo "Usage: bak [-u | --unix] [<filenames>]"
+	echo "Usage: bak [-u | --unix | -v | --verbose] [<filenames>]"
 }
 
 while [ "$1" != "" ]
@@ -12,6 +14,9 @@ do
 	case $1 in
 		-u | --unix )
 			UNIX_TIMESTAMP=1
+			;;
+		-v | --verbose )
+			VERBOSE=1
 			;;
 		-h | --help )
 			usage
@@ -24,6 +29,10 @@ do
 	shift
 done
 
+if [ $VERBOSE ]; then
+	CP="cp -v"
+fi
+
 for fn in "${FNAMES[@]}"
 do
 	if [ ! -f $fn ]
@@ -33,18 +42,18 @@ do
 	else
 		if [ $UNIX_TIMESTAMP ]
 		then
-			cp "$fn" "$fn.bak_$(date +"%s")"
+			$CP "$fn" "$fn.bak_$(date +"%s")"
 		else
 			if [ ! -f "$fn.bak" ]
 			then
-				cp "$fn" "$fn.bak"
+				$CP "$fn" "$fn.bak"
 			else
 				CNTR=1
 				while [ -f "$fn.bak$CNTR" ]
 				do
 					((CNTR++))
 				done
-				cp "$fn" "$fn.bak$CNTR"
+				$CP "$fn" "$fn.bak$CNTR"
 			fi
 		fi
 	fi
