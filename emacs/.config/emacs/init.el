@@ -26,7 +26,7 @@
 (show-paren-mode 1)
 (save-place-mode 1)
 (global-auto-revert-mode 1)
-(global-hl-line-mode t)
+(global-hl-line-mode 0)
 
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
@@ -52,9 +52,7 @@
 (set-keyboard-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-(if (eq system-type 'darwin)
-    (set-face-attribute 'default nil :height 160)
-    (set-face-attribute 'default nil :height 120))
+(set-face-attribute 'default nil :height 160)
 (set-frame-font "FiraCode Nerd Font Medium" nil t)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -157,7 +155,7 @@
         tron-legacy-theme-softer-bg t)
   :config
   (load-theme 'tron-legacy t)
-  (set-background-color "#000"))
+  (set-background-color "#000000"))
 
 (use-package ido-completing-read+
   :ensure t
