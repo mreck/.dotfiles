@@ -196,3 +196,11 @@
   (global-set-key (kbd "C-h k")   #'helpful-key)
   (global-set-key (kbd "C-h x")   #'helpful-command)
   (global-set-key (kbd "C-c C-d") #'helpful-at-point))
+
+(use-package company
+  :bind (:map company-active-map
+         ("C-n" . company-select-next)
+         ("C-p" . company-select-previous))
+  :config
+  (setq company-idle-delay 0.3)
+  (global-company-mode t))
