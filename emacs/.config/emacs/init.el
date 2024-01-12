@@ -57,6 +57,13 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CUSTOM FUNCTIONS
+
+(defun insert-current-date () (interactive)
+  (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MOVEMENT & EDITING
 
