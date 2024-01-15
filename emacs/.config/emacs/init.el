@@ -21,6 +21,7 @@
 (tool-bar-mode -1)
 (blink-cursor-mode -1)
 (scroll-bar-mode -1)
+(delete-selection-mode t)
 
 (column-number-mode 1)
 (show-paren-mode 1)
@@ -221,3 +222,13 @@
               (lambda ()
                 (interactive)
                 (company-complete-common-or-cycle -1))))
+
+(use-package org
+  :ensure t
+  :config
+  (setq-default org-startup-indented t
+                org-pretty-entities t
+                org-use-sub-superscripts "{}"
+                org-hide-emphasis-markers t
+                org-startup-with-inline-images t
+                org-image-actual-width '(300)))
